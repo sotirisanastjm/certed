@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="ico-acc" x1="20" y1="20" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF6B2C"/>
+      <stop offset="100%" stop-color="#E04A10"/>
+    </linearGradient>
+    <linearGradient id="ico-bg" x1="4" y1="4" x2="116" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#14172A"/>
+      <stop offset="100%" stop-color="#0B0D19"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Squircle base -->
+  <rect x="4" y="4" width="112" height="112" rx="28" fill="url(#ico-bg)"/>
+  <rect x="8" y="8" width="104" height="104" rx="24" fill="none" stroke="#1E2140" stroke-width="1"/>
+
+  <!-- Diagonal accent lines -->
+  <line x1="24" y1="100" x2="100" y2="24" stroke="#FF6B2C" stroke-width="0.8" opacity="0.12"/>
+  <line x1="16" y1="80" x2="80" y2="16" stroke="#FF6B2C" stroke-width="0.6" opacity="0.08"/>
+  <line x1="40" y1="108" x2="108" y2="40" stroke="#FF6B2C" stroke-width="0.5" opacity="0.06"/>
+
+  <!-- Hero check mark -->
+  <path d="M34 62L50 78L86 38" fill="none" stroke="url(#ico-acc)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Corner dot -->
+  <circle cx="94" cy="94" r="5" fill="#FF6B2C" opacity="0.45"/>
+</svg>
