@@ -1,166 +1,101 @@
 <div align="center">
 
-<img src="assets/logo.svg" alt="Certed" width="120">
+<img src="assets/logo.svg" alt="Certed" width="140">
 
 # Certed
 
-**The modern study platform for Sitecore certifications**
+### Your Personal Study Companion for Sitecore Certifications
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Prisma](https://img.shields.io/badge/Prisma-6.0-2D3748?logo=prisma)](https://www.prisma.io/)
+*Stop searching. Start learning.*
 
-[Features](#features) · [Certifications](#supported-certifications) · [Quick Start](#quick-start) · [Documentation](#documentation)
+---
 
 </div>
 
----
+## 🎯 What is Certed?
 
-## Overview
+**Certed** is a web application designed to make preparing for Sitecore certifications easier, faster, and more enjoyable.
 
-Certed consolidates Sitecore certification study materials into a single, streamlined platform. Select your target certification, study curated content organized by exam competencies, and validate your knowledge with interactive quizzes.
-
-**Key benefits:**
-- Curated content from official documentation and learning resources
-- Competency-aligned study paths matching actual exam structure
-- Practice quizzes with detailed explanations
-- Progress tracking across multiple certifications
+Whether you're aiming for your first Sitecore certification or expanding your expertise across multiple products, Certed brings everything you need into one place — simplified study materials and interactive quizzes that help knowledge stick.
 
 ---
 
-## Features
+## 💡 The Problem We Solve
 
-### Study Materials
-Distilled content from Sitecore documentation, learning paths, and community resources. Organized by certification competency areas with percentage weights matching the actual exam.
+Preparing for a Sitecore certification can be overwhelming:
 
-### Quiz Engine
-Practice questions and full mock exams with instant feedback. Each question includes detailed explanations to reinforce understanding.
+- Documentation is scattered across multiple sources
+- Learning paths are long and hard to digest
+- It's difficult to know if you're actually ready for the exam
 
-### Progress Tracking
-Monitor your study progress across certifications. Identify weak competency areas and focus your preparation where it matters most.
+**Certed changes that.**
 
-### Certification Browser
-Browse all Sitecore certifications with exam details including format, duration, passing scores, and prerequisites.
+We've distilled the essential knowledge from official Sitecore learning resources and documentation into easy-to-read study guides — organized exactly the way the certification exams are structured.
 
 ---
 
-## Supported Certifications
+## ✨ How It Works
 
-| Category | Certifications |
-|:---------|:---------------|
-| **Platform DXP** | Sitecore 10 .NET Developer · Sitecore 10 System Administrator |
-| **XM Cloud** | XM Cloud Developer · SitecoreAI CMS Developer |
-| **Content Cloud** | Content Hub Administrator · Content Hub Developer |
-| **Experience Cloud** | Sitecore CDP · Sitecore Personalize · CDP & Personalize Combined |
-| **Commerce Cloud** | OrderCloud |
+<div align="center">
 
-Also includes preparation materials for **Knowledge & Skills Badges**.
+**1. Choose Your Certification** → **2. Study at Your Pace** → **3. Test Your Knowledge** → **4. Get Certified**
 
----
+</div>
 
-## Quick Start
+### 📚 Easy Reading
+No more jumping between tabs and bookmarks. Get clear, concise study materials designed for busy professionals. Everything is broken down into digestible sections that respect your time.
 
-### Prerequisites
+### 🧠 Interactive Quizzes
+Reinforce what you've learned with practice questions. Each quiz is tailored to specific certification topics, complete with explanations that help you understand *why* an answer is correct.
 
-- Node.js 18+
-- PostgreSQL 14+
-
-### Installation
-
-```bash
-# Clone repository
-git clone https://github.com/yourusername/certed.git
-cd certed
-
-# Install dependencies
-npm install
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your database connection string
-
-# Initialize database
-npx prisma migrate dev
-npx prisma db seed
-
-# Start development server
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to access the application.
+### 📊 Track Your Progress
+See exactly where you stand. Know which topics you've mastered and which ones need more attention before exam day.
 
 ---
 
-## Tech Stack
+## 🏆 Supported Certifications
 
-| Component | Technology |
-|:----------|:-----------|
-| Framework | Next.js 15 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS |
-| Database | PostgreSQL |
-| ORM | Prisma |
-| Authentication | NextAuth.js |
-| API | tRPC |
+Certed covers the full range of Sitecore certifications:
 
----
-
-## Project Structure
-
-```
-certed/
-├── src/
-│   ├── app/           # Next.js pages and layouts
-│   ├── components/    # React components
-│   ├── lib/           # Utilities and helpers
-│   └── server/        # API routes and tRPC routers
-├── prisma/
-│   ├── schema.prisma  # Database schema
-│   └── seed.ts        # Seed data
-├── assets/            # Brand assets
-└── docs/              # Documentation
-```
+- **Platform DXP** — Developer & Administrator certifications
+- **XM Cloud** — The latest cloud-based CMS certifications
+- **Content Hub** — Administrator & Developer tracks
+- **Experience Cloud** — CDP, Personalize, and combined certifications
+- **Commerce Cloud** — OrderCloud certification
+- **Knowledge Badges** — Quick skill validations
 
 ---
 
-## Documentation
+## 🚀 Why Certed?
 
-| Document | Description |
-|:---------|:------------|
-| [Database Schema](docs/DATABASE_SCHEMA.md) | Complete data model reference |
-| [Certifications Reference](docs/SITECORE_CERTIFICATIONS.md) | All Sitecore certification details |
-
----
-
-## Roadmap
-
-- [x] Database schema design
-- [x] Certification data model
-- [ ] Authentication system
-- [ ] Certification browser UI
-- [ ] Study material viewer
-- [ ] Quiz engine
-- [ ] Progress dashboard
-- [ ] Dark mode
-- [ ] Mobile optimization
+| | Traditional Study | With Certed |
+|:--|:------------------|:------------|
+| **Time** | Hours searching for materials | Everything in one place |
+| **Focus** | Unclear what's important | Exam-aligned content |
+| **Confidence** | Hope you're ready | Know you're ready |
+| **Experience** | Reading walls of text | Interactive learning |
 
 ---
 
-## Contributing
+## 🌟 Who Is This For?
 
-Contributions are welcome. Please open an issue to discuss proposed changes before submitting a pull request.
+- **Sitecore Developers** looking to validate their skills
+- **IT Professionals** expanding into the Sitecore ecosystem
+- **Teams** wanting a structured certification program
+- **Career Changers** entering the digital experience space
 
 ---
 
-## License
+## 📬 Stay Updated
 
-MIT License. See [LICENSE](LICENSE) for details.
+Certed is actively being developed with new features and certifications being added regularly. Star this repository to follow along!
 
 ---
 
 <div align="center">
 
-**[Get started →](http://localhost:3000)**
+**Built with ❤️ for the Sitecore community**
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 </div>
