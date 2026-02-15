@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/logo.svg" alt="Certed" width="140">
+<img src="assets/logo-dark.svg" alt="Certed" width="140">
 
 # Certed
 
@@ -95,7 +95,5 @@ Certed is actively being developed with new features and certifications being ad
 <div align="center">
 
 **Built with ❤️ for the Sitecore community**
-
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 </div>
