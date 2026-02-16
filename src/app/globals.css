@@ -1,0 +1,281 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   CERTED COLOR SYSTEM
+   Based on brand identity: Midnight navy + Vibrant orange
+   
+   The palette draws from the logo's sophisticated contrast:
+   - Deep midnight blues convey trust, professionalism, certification authority
+   - Vibrant orange accents represent achievement, energy, the "check" of success
+   
+   DARK THEME ONLY - No system preference switching
+   ========================================================================== */
+
+:root {
+    /* ──────────────────────────────────────────────────────────────────────
+       MIDNIGHT NAVY PALETTE
+       The brand naturally lives in dark mode - midnight base with glowing orange
+       ────────────────────────────────────────────────────────────────────── */
+
+    /* Backgrounds: Deep midnight from logo */
+    --background: #0B0D19;
+    --background-elevated: #14172A;
+    --background-subtle: #1E2140;
+
+    /* Foregrounds: Warm off-white (not harsh pure white) */
+    --foreground: #F0EDE8;
+    --foreground-muted: #A8AAB8;
+    --foreground-subtle: #6B6E82;
+
+    /* Primary: Vibrant orange - achievement, success, the checkmark */
+    --primary: #FF7E45;
+    --primary-hover: #FF9966;
+    --primary-active: #FF6B2C;
+    --primary-foreground: #0B0D19;
+    --primary-subtle: rgba(255, 107, 44, 0.15);
+    --primary-muted: rgba(255, 107, 44, 0.25);
+
+    /* Secondary: Lighter navy for contrast */
+    --secondary: #2A2D48;
+    --secondary-hover: #363A5A;
+    --secondary-active: #1E2140;
+    --secondary-foreground: #F0EDE8;
+    --secondary-subtle: rgba(42, 45, 72, 0.5);
+    --secondary-muted: #4A4D68;
+
+    /* Accent: Warm amber */
+    --accent: #FBBF24;
+    --accent-hover: #FCD34D;
+    --accent-foreground: #0B0D19;
+    --accent-subtle: rgba(251, 191, 36, 0.15);
+
+    /* Success: Certification achieved - verdant green */
+    --success: #34D399;
+    --success-hover: #6EE7B7;
+    --success-foreground: #0B0D19;
+    --success-subtle: rgba(52, 211, 153, 0.15);
+
+    /* Warning: Study reminder - golden */
+    --warning: #FBBF24;
+    --warning-hover: #FCD34D;
+    --warning-foreground: #0B0D19;
+    --warning-subtle: rgba(251, 191, 36, 0.15);
+
+    /* Error: Incorrect answer - crimson */
+    --error: #F87171;
+    --error-hover: #FCA5A5;
+    --error-foreground: #0B0D19;
+    --error-subtle: rgba(248, 113, 113, 0.15);
+
+    /* Info: Learning tip - teal */
+    --info: #22D3EE;
+    --info-hover: #67E8F9;
+    --info-foreground: #0B0D19;
+    --info-subtle: rgba(34, 211, 238, 0.15);
+
+    /* Surfaces: Card backgrounds, modals */
+    --muted: #1E2140;
+    --muted-foreground: #8A8DA2;
+
+    /* Borders: Subtle definition */
+    --border: #2A2D48;
+    --border-strong: #3D4166;
+    --border-focus: #FF7E45;
+
+    /* Focus ring */
+    --ring: #FF7E45;
+    --ring-offset: #0B0D19;
+
+    /* ──────────────────────────────────────────────────────────────────────
+       CATEGORY COLORS
+       Each Sitecore certification category gets a distinct color
+       Optimized for dark backgrounds
+       ────────────────────────────────────────────────────────────────────── */
+
+    /* Platform DXP - Classic Sitecore purple */
+    --cat-platform-dxp: #A78BFA;
+    --cat-platform-dxp-subtle: rgba(167, 139, 250, 0.15);
+    --cat-platform-dxp-foreground: #0B0D19;
+
+    /* XM Cloud - Sky blue for cloud/modern */
+    --cat-xm-cloud: #38BDF8;
+    --cat-xm-cloud-subtle: rgba(56, 189, 248, 0.15);
+    --cat-xm-cloud-foreground: #0B0D19;
+
+    /* Content Cloud - Teal for content/organization */
+    --cat-content-cloud: #2DD4BF;
+    --cat-content-cloud-subtle: rgba(45, 212, 191, 0.15);
+    --cat-content-cloud-foreground: #0B0D19;
+
+    /* Experience Cloud - Pink/magenta for personalization */
+    --cat-experience-cloud: #F472B6;
+    --cat-experience-cloud-subtle: rgba(244, 114, 182, 0.15);
+    --cat-experience-cloud-foreground: #0B0D19;
+
+    /* Commerce Cloud - Green for commerce/money */
+    --cat-commerce-cloud: #4ADE80;
+    --cat-commerce-cloud-subtle: rgba(74, 222, 128, 0.15);
+    --cat-commerce-cloud-foreground: #0B0D19;
+
+    /* ──────────────────────────────────────────────────────────────────────
+       GRADIENTS
+       ────────────────────────────────────────────────────────────────────── */
+
+    /* Hero gradient: Primary brand gradient */
+    --gradient-hero: linear-gradient(135deg, #0B0D19 0%, #14172A 50%, #1E2140 100%);
+    
+    /* Accent gradient: Orange achievement gradient (from logo) */
+    --gradient-accent: linear-gradient(135deg, #FF7E45 0%, #FF5A1A 100%);
+    
+    /* Success gradient: Certification passed */
+    --gradient-success: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+    
+    /* Warm gradient: Subtle warmth for CTAs */
+    --gradient-warm: linear-gradient(135deg, #FF7E45 0%, #FBBF24 100%);
+
+    /* Midnight gradient: Deep trust */
+    --gradient-midnight: linear-gradient(135deg, #14172A 0%, #1E2140 50%, #2A2D48 100%);
+
+    /* ──────────────────────────────────────────────────────────────────────
+       SHADOWS
+       Subtle glows optimized for dark backgrounds
+       ────────────────────────────────────────────────────────────────────── */
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    
+    /* Glowing colored shadows */
+    --shadow-primary: 0 4px 20px -3px rgba(255, 126, 69, 0.4);
+    --shadow-secondary: 0 4px 14px -3px rgba(42, 45, 72, 0.5);
+}
+
+/* ==========================================================================
+   TAILWIND THEME INTEGRATION
+   Maps CSS variables to Tailwind's color system
+   ========================================================================== */
+
+@theme inline {
+    /* Core colors */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-foreground-subtle: var(--foreground-subtle);
+    --color-foreground-muted: var(--foreground-muted);
+    
+    /* Primary (orange) */
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    
+    /* Secondary (midnight) */
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    
+    /* Accent (amber) */
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    
+    /* Muted */
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    
+    /* Border & Ring */
+    --color-border: var(--border);
+    --color-ring: var(--ring);
+
+    /* Status colors */
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+    --color-error: var(--error);
+    --color-info: var(--info);
+
+    /* Font family - using Outfit from the logo */
+    --font-sans: 'Outfit', system-ui, sans-serif;
+}
+
+/* ==========================================================================
+   BASE STYLES
+   ========================================================================== */
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    border-color: var(--border);
+}
+
+/* Selection styling */
+::selection {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+}
+
+/* Focus visible styling */
+:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+
+/* Gradient text utility */
+.text-gradient-accent {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-gradient-warm {
+    background: var(--gradient-warm);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-hero {
+    background: var(--gradient-hero);
+}
+
+.bg-gradient-accent {
+    background: var(--gradient-accent);
+}
+
+.bg-gradient-midnight {
+    background: var(--gradient-midnight);
+}
+
+/* Category color utilities */
+.cat-platform-dxp { background-color: var(--cat-platform-dxp); color: var(--cat-platform-dxp-foreground); }
+.cat-xm-cloud { background-color: var(--cat-xm-cloud); color: var(--cat-xm-cloud-foreground); }
+.cat-content-cloud { background-color: var(--cat-content-cloud); color: var(--cat-content-cloud-foreground); }
+.cat-experience-cloud { background-color: var(--cat-experience-cloud); color: var(--cat-experience-cloud-foreground); }
+.cat-commerce-cloud { background-color: var(--cat-commerce-cloud); color: var(--cat-commerce-cloud-foreground); }
+
+/* Category subtle backgrounds */
+.cat-platform-dxp-subtle { background-color: var(--cat-platform-dxp-subtle); color: var(--cat-platform-dxp); }
+.cat-xm-cloud-subtle { background-color: var(--cat-xm-cloud-subtle); color: var(--cat-xm-cloud); }
+.cat-content-cloud-subtle { background-color: var(--cat-content-cloud-subtle); color: var(--cat-content-cloud); }
+.cat-experience-cloud-subtle { background-color: var(--cat-experience-cloud-subtle); color: var(--cat-experience-cloud); }
+.cat-commerce-cloud-subtle { background-color: var(--cat-commerce-cloud-subtle); color: var(--cat-commerce-cloud); }
+
+/* Reduced motion support for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

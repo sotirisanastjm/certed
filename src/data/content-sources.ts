@@ -1,0 +1,87 @@
+import type { ContentSource, ExternalResource } from '../types';
+
+export const contentSources: ContentSource[] = [
+    {
+        id: 'source-sitecore-docs',
+        name: 'Sitecore Documentation',
+        baseUrl: 'https://doc.sitecore.com',
+        description: 'Official Sitecore technical documentation',
+        isOfficial: true,
+        isActive: true,
+    },
+    {
+        id: 'source-sitecore-learning',
+        name: 'Sitecore Learning',
+        baseUrl: 'https://learning.sitecore.com',
+        description: 'Official Sitecore learning pathways and courses',
+        isOfficial: true,
+        isActive: true,
+    },
+    {
+        id: 'source-sitecore-developers',
+        name: 'Sitecore Developer Portal',
+        baseUrl: 'https://developers.sitecore.com',
+        description: 'Developer resources, tutorials, and community',
+        isOfficial: true,
+        isActive: true,
+    },
+    {
+        id: 'source-sitecore-community',
+        name: 'Sitecore Community',
+        baseUrl: 'https://community.sitecore.com',
+        description: 'Community forums and articles',
+        isOfficial: true,
+        isActive: true,
+    },
+    {
+        id: 'source-sitecore-stackexchange',
+        name: 'Sitecore Stack Exchange',
+        baseUrl: 'https://sitecore.stackexchange.com',
+        description: 'Q&A site for Sitecore developers and administrators',
+        isOfficial: false,
+        isActive: true,
+    },
+];
+
+export const externalResources: ExternalResource[] = [
+    {
+        id: 'res-xmc-architecture',
+        title: 'XM Cloud Architecture Overview',
+        url: 'https://doc.sitecore.com/xmc/en/developers/xm-cloud/xm-cloud-architecture.html',
+        description: 'Official documentation on XM Cloud architecture',
+        category: 'Architecture',
+        tags: ['xm-cloud', 'architecture', 'official'],
+        isVerified: true,
+        sourceId: 'source-sitecore-docs',
+    },
+    {
+        id: 'res-jss-docs',
+        title: 'JSS Documentation',
+        url: 'https://doc.sitecore.com/xmc/en/developers/jss/latest/jss-xmc/index.html',
+        description: 'JavaScript Services (JSS) SDK documentation',
+        category: 'Development',
+        tags: ['jss', 'javascript', 'sdk', 'official'],
+        isVerified: true,
+        sourceId: 'source-sitecore-docs',
+    },
+    {
+        id: 'res-content-hub-api',
+        title: 'Content Hub REST API Reference',
+        url: 'https://doc.sitecore.com/ch/en/developers/cloud-dev/rest-api.html',
+        description: 'REST API reference for Content Hub',
+        category: 'API',
+        tags: ['content-hub', 'api', 'rest', 'official'],
+        isVerified: true,
+        sourceId: 'source-sitecore-docs',
+    },
+    {
+        id: 'res-cdp-stream-api',
+        title: 'CDP Stream API Documentation',
+        url: 'https://doc.sitecore.com/cdp/en/developers/api/index-en.html',
+        description: 'Stream API documentation for Sitecore CDP',
+        category: 'API',
+        tags: ['cdp', 'api', 'stream', 'official'],
+        isVerified: true,
+        sourceId: 'source-sitecore-docs',
+    },
+];

@@ -1,0 +1,1249 @@
+# Sitecore
+
+---
+
+## Sitecore Products
+
+The Sitecore platform is mainly consists of three products:
+
+1. Sitecore Experience Manager (XM)
+    1. It mainly deals with the content management or content publishing
+        1. XM refers to the Web Content Management (WCM) core of Sitecore Experience Platform. XM encompasses the features involved in creation, management, personalization and publishing of content. So, with XM we manage and publish the content, it is mainly related to content development.
+2. Sitecore Experience Platform (XP)
+    1. It combines Experience Manager with the marketing and customer intelligence features offered by xConnect and xDB. xConnect and xDB introduce a number of additional server roles and storage mechanism.
+        1. **xConnect** is the name given to the set of services that sit in between xDB and any trusted client, device or interface that wants to collect and search experience data over HTTPs.
+        2. **xDB** is the name given to the collection of servers and storage roles that store and process experience data. Clients that are external to xDB - such as a Content Management server - must use xConnect to read and write xDB data.
+3. Sitecore Experience Commerce (XC)
+    1. It is mainly related to personalization and marketing
+        1. It is a fully integrated, featured rich commerce solution. Deployed on top of Sitecore Experience Platform. Sitecore XC combines content management, personalization, marketing, customer intelligence and data with advanced commerce functionality in a single, powerful, enterprise solution.
+
+## Pages
+
+Web pages in Sitecore are built beginning with the **layout**. The layout defines the overall structure of the page. Inside of the layout, there are multiple **renderings**. These renderings are created separately so the can be reused on other types of pages in a larger website. Renderings are placed into a layout using a **placeholder**. Placeholders tells the Sitecore where to put the rendering on the page. The content structure for the renderings is setup using **data templates**. A data template consists of fields where each filed has it’s own type such as image or rich text. Data templates acts as data models, which you will bind to renderings to display the values from the fields in Sitecore.
+
+A rendering can also be referenced as component or control.
+
+## Content Authors and Developers Model
+
+In Sitecore CMS, developers create templates and their standard values so content authors can create pages based on those templates.
+
+All the things that a template can utilize like layouts and renderings are created/codded by the developers and then can be utilized in the CMS.
+
+Content authors can create pages by utilizing the templates and the renderings. They can customize those pages by putting the renderings they like into the placeholders (usually, there is a list of renderings that can be added within a placeholder). So, with Sitecore, the developers are creating the framework or in other words, the building blocks required for building a site and those building blocks can be used in different ways by the content authors so they have the freedom and the flexibility to craft the final form of the site on their own and even make changes on their own without having to deal with the developers (once the developers have build all the tools required for the site).
+
+## Terminology
+
+You must understand seven fundamental terms that are necessary to get started with your Sitecore environment and to better share information about your Sitecore solution. These seven terms are:
+
+- Item
+    - An item is a basic unit of content and organization in Sitecore. Anything you create in your Sitecore content tree is considered an item, and once you create an item, it receives a name and ID that uniquely identifies it. Items are used for everything in Sitecore. They are the building blocks for Content Authors, and they are also used to build developer artifacts and settings, as well as to define layout information. All items are created from a template that defines the structure of data fields that an item contains.
+- Content tree
+    - The content tree is an organizational system that houses items in a hierarchical structure. Each item in the content tree has a parent item and may have zero or more child items. The content tree enables the organization of your content and developer items using the aforementioned hierarchy.
+- Template
+    - Templates are data structures for your content and are used to create items. Templates allow you as a developer to define structured content types using field sections and fields. Each field has a specific data type, such as text, that defines how it appears and how it is stored. The template can also be used to set several kinds of defaults, such as field values, layout, and allowed child item types.
+- Placeholder
+    - Placeholders are Sitecore's way of identifying and naming a position in the markup of the page. They are identified by a unique attribute, i.e., the placeholder key ("main"). Placeholders allow authors to dynamically add content components within the Experience Editor.
+- Layouts
+    - A layout defines the shell of the rendered appearance for an item when it is shown to a site visitor. One example of a layout is a page shell with a header and footer. Layouts have two parts: an item that registers the layout with Sitecore, and an implementation of the layout created by the developer that defines the markup to use, such as a Razor .cshtml file. Layouts expose one or more placeholders. As a developer, you can assign a layout to a template, which makes that template a page type using the shell provided by the layout.
+- Rendering
+    - A rendering defines an individual content component that can be added to a placeholder; for example, “Accordion” or “Two-Column Content” might be renderings. Placeholders can be defined on a layout, but renderings may also expose additional placeholders to create a layout hierarchy, such as main/accordion/accordion-items. Like layouts, renderings are comprised of both a rendering item that registers the rendering with Sitecore and a code implementation for the component logic and markup. Sitecore supports both View and Controller Renderings that follow ASP.NET MVC conventions. A Controller Rendering invokes an action method on an MVC controller to produce the component markup. View Renderings are a Razor view that is provided a default model automatically by Sitecore and have no controller.
+- Database
+    - Sitecore stores content in databases, and each database contains a completely independent content tree and item data. There are two content databases: Master and Web databases. The Master database stores all versions of content (published or draft), and Content Authors view the Master database when they write content. When an author publishes content, Sitecore synchronizes the content tree from the Master database to one or more publishing target databases. The most common publishing target is the Web database. The Web database contains the latest publishable version of the master content. Site visitors see content delivered from the Web database, which only contains approved and published content. This means that developer-created items, such as layouts, templates, and renderings, must also be published to be “live”.
+- Item Buckets
+    - The term "bucketable” It is used to describe items that have been configured to be placed within an item bucket. To place a bucketable item into a bucket, you must first create an item bucket. Item buckets are containers that allow you to hide innumerable items and still easily retrieve them when needed. Using item buckets can be helpful in managing your site's content tree, especially as the number of items increases.
+
+## CM, CD, PI and Databases
+
+CM stands for Content Management server and CM servers are meant for content editing by content authors. CM is where content authors login and managing the content using the browser.
+
+CD stands for Content Delivery server and CD is where the public websites will be hosted. Visitors will visit the website through this content delivery server.
+
+The Content Delivery (CD) server handles requests from visitors, determines which content to serve, and renders output in the relevant format.
+
+In a monolithic MVC application, the CD server serves the data as HTML chunks (HTML code along with the corresponding data). On the other hand, when it comes to headless, the CD server serves the data in the form of JSON objects (via the layout service) so it is another’s app responsibility (a JSS app or an ASP.NET Core) to take that data and render them on HTML.
+
+PI stands for Publishing Instance server, PI server is responsible for your publishing operations. We can publish content from CM to CD or from Master to Web Databases through the **publishing interface**.
+
+Whenever the content author manages the content, all the content and it’s multiple draft versions are stored into the **master database**.
+
+When content author decides that the content is good and ready to go live, he will publish the content and then it moves to the **web database**.
+
+So web database is where the live content will be stored. Even though there may be a lot of draft versions of the content in the master database, the final version will be in the web database. That is the reason that most of the time the master database is much bigger than the web database. So the web database is the clean and final version of the data/content.
+
+CD reads from the web database and it has no access to the master database.
+
+CM reads and write to the master database and can move the final version of the content into the web database.
+
+Websites will be hosted on both CM and CD environments.
+
+There is another database called **core database** which is not used for content storage. This database can be considered as the configuration database. That means that all the information/settings you see in the UI of the editors (content & experience editors) is managed in that database. You config which button should appear where and what it does when you click it.
+
+So, the core database contains all Sitecore settings.
+
+A common use for the core database is for cases where you want to introduce some custom menu in the master database for content authors and also if you want to enable some new buttons in the experience editor. Generally, it’s best practice to try to not make many changes in the core database and whenever we make any change we should only create custom one and we should not update existing one.
+
+## Versioning
+
+In the Content Editor or Experience Editor, you can add new versions of any item in Sitecore, and you can add as many versions as you want.
+
+You can roll back to any previous versions easily by selecting it and making it an active version by publishing it to live.
+
+There are two types of versions:
+
+- **Language versions:** Version of an item in various languages. For example, for an item in Danish, you can add an English version of the same item. In this case, you should also add additional versions of the images of the item, if you want to display the alternative text in both languages.
+- **Numbered versions:** Versions of an item in the same language. For example, you can add a second version of your products page to use during special promotions.
+
+## Publishing
+
+Publishing is a process that will help you to copy updated items from the master database to the web database.
+
+Content Authors will add/edit the content in experience editor or through Sitecore content editor in the CM server which is called a content management server. We store all the contents in the Master Database.
+
+In order to move these edited contents to live we use publish interface and publish the contents to live. What are the different types of publishing available in Sitecore?
+
+- Republish
+    - As the name indicates Republish will publish all the items selected whether it is changed or not. Mostly Republish is used when the site is published for the first time and it is the most time-consuming method as it publishes all the items blindly.
+- Smart Publish
+    - Smart Publish is one of the best features available in Sitecore. It works by comparing each item in the master database with the item in the web database and publishes whichever is changed.
+    Sitecore maintains the revision number for each of the items getting changed during the editing process. By comparing the revision number with web DB, Sitecore will create a list of updated items and it publishes only those items which are changed.
+    Smart publish is faster than republish and most of the Sitecore authors use smart publish.
+- Incremental Publish
+    - Every time the content is changed, Sitecore adds it to the publishing queue. When we select the incremental publish Sitecore will publish only these items which are added to the publishing queue.
+    Incremental publish is the fastest compared to Republish and Smart publish as only the edited contents get published.
+
+## Templates
+
+Sitecore **data templates** are one of the basic build-in blocks of Sitecore content.
+
+Data templates can also be referred simply as “templates”.
+
+With templates we define the data structure/schema of the content which contains fields with field types.
+
+In Sitecore, everything within the content tree is an item and all items are built from templates.
+
+So, creating a data template is the first step we do if we are building any component or any pages in Sitecore.
+
+The value for each field is provided by the user in the CMS.
+
+An easy way to understand data templates in Sitecore is to compare them with classes in object oriented programming:
+
+- Template → Class
+- Standard Values (they define initial values for fields and sets default presentation details) → Class Constructor
+- Fields → Fields/Properties
+- Field Type → Data Type
+- Content (we create content items based on a template) → Object/Instance
+
+Some important fields of a template is **field sources**, **unversioned** and **shared**.
+
+In the templates area each field type has a text box field as **Source**. Those fields are called field sources.
+
+**Field sources:** They contain the location of content, defined by a path or GUID. The use of the field source depends on the field type, and many field types use the field source to define the root item from which to show options. Important facts to note about field sources include:
+
+- Not all fields will require a field source; however, using a field source will allow a Content Author to choose from a specific item in a defined list.
+- Depending on the type of field you are working with, field sources are used in different ways, including:
+    - For an image/file field, the field source defines the browsing location in the Media Library.
+    - For a Rich Text field, the field source is used to configure the buttons in the toolbar for the HTML editor.
+
+**Versioned fields:** By default every field in Sitecore is a versioned field. These fields can have separate language versions and several numbered versions for each language version. To mark a field as versioned do not check ‘Shared’ and ‘Unversioned’ check boxes while creating the template.
+
+**Shared fields:** While creating the templates, we need to check the Shared checkbox to make a field ‘Shared’. The data in the Shared fields are shared among all languages and all numbered versions. So if you make a change in one language version of an item it would reflect in other languages and their numbered versions. These type of fields are used mainly if there is some data whose value need not to be versioned at all. Like a profile image or something.
+
+**Unversioned fields:** Sitecore templates support **multiple inheritance**. Meaning a template can be composed from multiple templates. For example, a home page template can be a template which inherits from 4 other templates. So this supports what’s called a “component based” approach.
+
+By default, all templates inherits from “standard template”.
+
+Data templates can be further categorized into sub types:
+
+- Page templates and data source templates:
+    - The only difference is that page templates have a layout associate with them. When we attach a layout on a data template, it becomes a page template. Page templates combines data and presentation. On the other hand, data source templates do not have a layout associate with them. So a data template without a layout is actually a data source template.
+    - You should create a page template for each unique page. For example, create a page template for the home page, the contract page, etc..
+    Page templates define the structure of the whole page, meaning it’s layout and it’s fields.
+    It is common that page templates never include fields of their own but instead, they inherit from multiple data templates. That way, we avoid duplicate data.
+    - Data source templates defines the data structure of a single unit of content. A page template defines it’s data structure by inheriting from multiple data source templates. Each data source template represent a small portion of the whole data structure of a page. So, all those small data source templates combined together consist of the whole data structure of a page.
+- Base templates:
+    - They are similar to base classes on object oriented programming languages. A base template provides just the common fields across multiple templates and it should not be used to create items directly. So other templates are inheriting from base templates and they also have their own unique fields. Those templates will be used to create items.
+- Parameter templates:
+    - Parameter templates have fields which do not include content but values that controls the presentation of the component. For instance, changing the white spacing between html elements or changing background colors.
+
+There is also another template type called **command templates**.
+
+Command templates enables code execution before the creation of an item. For example, you can create a command template that uses a JavaScript prompt to collect an item name. Command templates typically invoke a wizard application that collects information from a user and then programmatically creates an appropriate set of items.
+
+### Standard Values
+
+Standard values provide initial values for all items based on a given template. It’s common for each template to have standard values.
+
+When you create an item based on a template which have standard values, the corresponding fields will be populates with those values. Standard values behave just like **constructors** in OOP languages. Most of the times, a standard value is not static data. To define dynamic data in a standard value we have to use **tokens**.
+
+Standard values are used a lot to set the initial values for fields and the presentation details (the layout, the renderings and the placeholder settings).
+
+You can edit the presentation details of a template after items have been created from it. However it’s best practice to set the presentation details before content items are created or in other words, to set the presentation details in the standard values of a template.
+
+### Tokens
+
+Tokens are mainly set at the standard values.
+
+A token is like a variable whose content appears on the creation time.
+
+Whenever we create new items based on a template, which contains standard values with tokens, Sitecore expands these tokens and resolve them with the proper values at the time of creation.
+
+There are several built-in tokens provided by Sitecore and if it is required, we can create our own custom tokens as well.
+
+Lets consider a scenario, if you have to create 100 Sitecore items from one template and whatever name you give to the item can also be the value for title field of that item. If you think, then you have to do the typing of the name twice and, this is where a build-in token: `$name` is required which we can use in standard values of that particular item.
+
+Build-in tokens available are:
+
+- **$name**: The name of the item
+- **$id**: The ID of the item
+- **$parentid**: The ID of the parent of the item
+- **$parentname**: The name of the parent of the item
+- **$date**: The system date (yyyyMMdd)
+- **$time**: The system time (HHmmss)
+- **$now**: The date and time (yyyyMMddTHHmmss)
+
+## Insert Options
+
+Insert Options help us to improve our site's information architecture.
+
+Once you have got a basic structure of a site, you'll need a way to keep the content under control.
+
+Insert Options restrict what type of items that you can add as the child of an another item.
+
+The “insert from template” option (which allows to add an item from any template) is visible only to users with admin rights. So most users are restricted to add new items only from the appropriate templates.
+
+Insert Options are generally set on the standard values of a template and enable Content Authors to right-click on a node within the content tree and add a child item based on that template.
+
+Setting Insert Options is useful because you can enforce content topology to ensure Content Authors are not creating pages or items in places they aren't supposed to. Or, put another way, if Insert Options have not been set on a template, Content Authors will not be able to create a child item based on that template in the content tree.
+
+## Layouts
+
+Layouts are the scaffolding for your web pages, and will usually include the `<head>` and `<body>` tags for the markup. They often pull in styling and JavaScript code but have little markup themselves, instead it have multiple placeholders in which one can plug component renderings.
+
+Layouts are used to display content. They don’t have code-behinds with the ability to execute business logic, which is what renderings are for. However, any item in your content tree can be given a corresponding layout, and that layout can display that item’s information through the use of field renderers like `@Html.Sitecore().Fields(“title”)` and placeholders like `@Html.Sitecore().Placeholder(“main”)`.
+
+### Shared and Final Layouts
+
+Shared Layout: It is used by every version of the item. An item can have multiple versions and the shared layout it’s used by all of those versions. That’s why it’s called shared layout.
+
+Final Layout: It combines the presentation details of the shared layout with some dedicated details of a particular version of the item.
+
+Shared and final layouts can be identical if the final layout does not have anything that’s version related.
+
+A layout can have multiple versions. Versioned layouts make it possible to specify different layouts for different versions and languages of the same item.
+
+You use versioned layouts (final layouts) when you want to:
+
+- Have different layouts for different languages.
+- Publish a specific version with its own layout for a specific period.
+    - A common use of a final layout is when you have a campaign limited period and you want to change the layout of a page i.e. use the temporary layout (final layout), lets say for 2 weeks and then revert back to shared layout..
+
+To make a versioned layout we have to modify the final layout for each version of an item. So each version can have a different layout.
+
+Note that the term “versioned layout” is used to make clear the purpose of final layouts. It is not an official term. A final layout is used to create a different version of a layout (that could be used on a single page for a limited period). That’s why we refer it as “versioned layout”.
+
+## Renderings
+
+Renderings are used to render a part of a page in Sitecore.
+
+They contain html code, some field renderers (fields which are rendered dynamically) and maybe some business logic. You can think renderings as sub layouts (that’s because they contain html code and render dynamic content).
+
+You can set a rendering directly on an item but you should avoid it and instead, prefer to set them on the standard values of a page template (we can do this on the Sitecore CMS only after the rendering is created and not during it’s creation time) because those values are inherited by any item that is based on this template.
+
+A rendering defined on a page’s template standard values can access all the fields of that page template. In other words, that page template defines the content structure of the rendering (so we know which fields this rendering can render).
+
+The most commonly used types of rendering are: **View Rendering** and **Controller Rendering**.
+
+A view rendering is just a view (html code) with some fields. It can only include client side logic.
+
+A controller rendering is a server side rendering (a controller action) which renders html code and executes business logic (external data fetching, connecting to an API etc..). So, controller renderings are used for more complex situations where advanced business logic is necessary.
+
+View renderings are the more basic of the two and utilize a default model, `RenderingModel`. Controller renderings are a bit more complex and can either use the basic `RenderingModel` or a model of your own creation.
+
+The renderings can be assigned to a layout statically or dynamically (we do this during the creation of the rendering on the Sitecore CMS). We can statically bind the components/renderings to the layout when we are sure that its place will not change at any given time ex. Header and Footer. When we are not sure about the placing of the components ex. Main body components then we go for dynamic bindings also known as Placeholders.
+
+A rendering can be composite. A composite rendering consists of several renderings.
+
+## Placeholders and Placeholder Settings
+
+We saw that for dynamic binding of renderings we need placeholders. Placeholders will help us to make the website as dynamic as possible but with this flexibility we might increase the chances of error as well so we will need to configure some settings so that with the restrictive model we can take advantage of placeholders as much as possible.
+
+Now we will understand why we need placeholders and placeholder settings.
+
+If we don’t use the placeholder then each rendering/component we need to statically bind to the Layout. If this is a case then the flexibility to change the page design with minimal efforts is lost. So we are using placeholders to dynamically bind the components/renderings to the layout. Now you will have a doubt that we did dynamic binding then why we need placeholder settings.
+
+Let’s understand this in detail. Now you as a developer have setup Controller rendering using a placeholder key ‘main’. When the content author is trying to edit (Remove the rendering) it in Experience editor, s/he is not allowed and dependency comes back to you. To remove this dependency, we need to create placeholder settings so that content editors can make a full use of the experience editor.
+
+So, content authors can modify (i.e. edit or remove) or add components through the experience editor only if the developer have configured the placeholders settings. The components which are added to the placeholders settings, are the renderings that content authors are allowed to add within the placeholders. So, a developer can restrict the number of renderings that a content author can add within a placeholder by configuring it’s settings (i.e. list the components that are allowed to be inserted in that particular placeholder). If the developer do not config it’s settings then content authors can not add any component within that placeholder (they can’t utilize that placeholder).
+
+Placeholders within a page must be unique. You can only have a single placeholder within a page with a specific name.
+
+Let’s say you have a two column layout with a “left column” and a “right column” placeholder, this can only appear once on a page, you cannot add the placeholder multiple times. If you do then any renderings/components you add will be duplicated in all placeholders with the same name.
+
+## Dynamic Placeholders
+
+Placeholders, regardless of type, have a placeholder key and corresponding Placeholder Settings item in the content tree. Placeholders act as containers for components and are used as the scaffolding of the pages Content Authors will create. Depending on the settings within the Placeholder Settings item, only certain renderings or controls can be selected for a specific placeholder.
+
+However, because placeholders can be inside components, thus allowing you to create a nested scaffold structure for a page, you may encounter a scenario when a component with a standard placeholder is used multiple times on a page. In this situation, you have two components with the same placeholder key on the same page.
+
+Unfortunately, this leads to a less than desirable result because Sitecore cannot recognize the difference between the two placeholders with the identical keys. The result is that any content or component added to the placeholder will be replicated in each instance of the same placeholder key. The way to resolve this issue is to use dynamic placeholders rather than the standard placeholders.
+
+Dynamic placeholders allow you to have more than one placeholder with the same placeholder key on a page at the same time. It is wise to use dynamic placeholders anytime the possibility exists for a placeholder with the same key to appear twice on a given page.
+
+The way Sitecore handles dynamic placeholders is that when more than one appears on a page, the system will reassign the placeholder key with a unique placeholder key, which will look like `KeyValue_{GUID}_x`.
+
+The key value is the same as the assigned key, the GUID is a unique ID assigned to the placeholder, and the x is the number of the placeholder on the screen. So if you have three center-column placeholders with the key of col-center, they will be assigned as follows:
+
+```jsx
+col-center_{GUID}_0
+
+col-center_{GUID}_1
+
+col-center_{GUID}_2
+```
+
+## Datasources
+
+Datasources are used for various reasons and at various places. There are mainly 2 types of Data sources.
+
+### Field Datasources
+
+These Datasources are one we discussed earlier. In the templates area each field type has a text box as Source. Some field types require a value in it and some don’t require. For exmple, all the fields that display a list of items for the selection are using field Datasources. Simple fields like text fields do not need a data source.
+
+The content author must pick an option from the data source (the list) during the creation of an item of the template that has the field datasource.
+
+We can think field datasources as a list of type x in C#. For example, a `List<Fruits>` is a list that includes fruits. The same thing in Sitecore can be represented as a field with a type that renders a list and a source that points to a specific location in the content tree that contains a specific type of items, in this case, fruits.
+
+Field datasources are part of the template so the content author can not change them (meaning they can’t change the data source).
+
+### **Rendering Datasources**
+
+With this type of datasources, renderings can pull data from data source items. This means that the content they display is not bound to the page on which they appear but is stored in data source items.
+
+Rendering data sources allow us to reuse the same component multiple times on a page. So content authors can change the data source of a rendering.
+
+The following fields determine how a rendering relates to its data source item:
+
+- Datasource Location – specify where the user is allowed to look for the data source.
+- Datasource Template – specify the types of data sources users can create.
+- Datasource – specifies a data source item.
+
+The **Datasource Location field** allows you to specifically set the data source for a rendering and dictate where content authors can choose the data source from. The Datasource Location field only limits where a content author can choose a data source from.
+
+The **Datasource Template field** allows you to provide a restriction on the types of items that can be selected as a data source for the rendering without limiting the content author to just one data source or data source location. For example, if your rendering displays a series of images in a gallery, you can limit the rendering to only those items created from the image bank template.
+
+The **Datasource field** is the selected data source item.
+
+So, the location and datasource fields restricts the data source items that a content author can select. If the developers provide a default data source item in the standard values of the template without specifying any location or template, then the content author has all the freedom to choose a random data source. So by providing a location or a template or both, we restrict the options for a content author to the correct ones so we eliminating the possibilities for selecting a data source that isn’t supposed to be selected for that particular rendering.
+
+The rendering datasource can be defined at 3 locations: On item’s rendering, Template Standard Values and at the Rendering. Since we can define at 3 locations, it has fallback mechanism. First it checks for Item’s rendering datasource >> Standard Value’s rendering datasource >> Rendering. If none of these 3 has datasource value then it will be blank displayed on Front end.
+
+## Media Library
+
+Media Library is a digital folder in Sitecore where all the media items are stored. You can manage all your media items from the Media Library, such as images that you want to embed in a webpage or make available for download by visitors. The Media Library contains all your media items, such as images, documents, videos, and audio files.
+
+In the Media Library you can:
+
+- Keep all your media files in one place and organize them in a folder structure similar to the content tree.
+- Navigate the content tree or use Sitecore’s search functionality to quickly find media items.
+- Upload media files to the Media Library. You can use the upload buttons to browse your computer for images or simply use the Drag & Drop dialog box to add media files.
+- Make every media content item and media file versionable.
+
+## Security
+
+The Sitecore security model enables you to grant or deny access to almost every aspect of a website. To do this, you use security accounts and security domains to control the access that users have to the items and content on their website as well as the access they have to Sitecore functionality.
+
+- Security Accounts
+    - A security account is a role or a user:
+        - Roles are used to manage website authorization. Roles allow the grouping of users into structured units, such as managers, sales staff, anonymous users, and so on. This makes it easier to organize security access because you can use a single role to assign security access rights to multiple users. Roles give you the flexibility to change permissions and to add or remove users without having to make changes to the whole website.
+        Users can belong to more than one role, giving them different access rights to different areas of a site. Users who are members of multiple roles gain their access rights from all the assigned roles.
+        Sitecore contains a set of predefined security roles that you can use, or you can create new roles and give them the relevant access rights.
+        In Sitecore, you use the **Role Manager** to create new and manage existing roles.
+        In a role, you can assign either user or other roles. So, a role can inherit permissions/security settings from other roles. So, just like template inheritance, Sitecore also allows for role inheritance.
+        - A user account in Sitecore contains details about the user name, domain, email, and password. You can assign access rights directly to a user account (rather than assigning a role to a user account).
+        Access rights or security settings can be apply either on roles or users.
+- Security Domains
+    - A security domain is a collection of security accounts (users and roles) that you can administer as a unit with common rules and procedures. A domain is used to collect security accounts that have some logical relationship, for example, all the accounts that have access to use the Sitecore clients could be stored in the Sitecore domain, whereas all the accounts with access to the published website could be stored in the Extranet domain.
+    Generally, users will be members of roles in their domain and domains will not contain users from other domains. However, users can be members of roles in multiple domains, and roles can contain users from multiple domains.
+        - Sitecore contains the following default domains:
+            - **Extranet:** This domain is a website security domain that contains the user accounts that correspond to the visitors to the website. It also contains the customized roles that manage read access to the content of the website.
+            Note that members of the Extranet domain that are also members of relevant Sitecore roles (for example, Sitecore Client Authoring) can access the Sitecore domain and use the client tools to edit the content of the website.
+            - **Sitecore:** This domain is an internal security domain that contains all the users who can access the Sitecore clients and the Sitecore Client roles that influence the functionalities that are available to users. It also contains the customized roles that control the access that users have to items.
+            Note that members of the Sitecore domain can access the Sitecore client tools and edit the website if they have the appropriate access rights. Furthermore, they may be able to access the Extranet domain depending on how the developers and the security architect have designed the domain and the login page.
+            - **Default:** This is a virtual domain that only exists in memory. Sitecore is setup with Extranet as the default domain and most user accounts will be extranet\anonymous when they visit the website. However, if the website does not specify a default domain, then the users are set to default\anonymous.
+            All these domains contain an Anonymous user and an Everyone role. The Everyone role automatically includes all users and the Anonymous user in the domain.
+
+### Security Access Right Inheritance and Descendants
+
+By default, an item inherits rights that are assigned to the items, either at the item level or on the template standard values that are higher up in the content tree, otherwise known as **ancestors**.
+
+For example, you can configure the security settings for a particular page and then all of the items that are lower down the content tree, otherwise known as **descendants**, automatically inherit the same settings. This makes it much more efficient to assign security access rights. Imagine if we had to set access right on every single template.
+
+However, if there is an item that should not inherit any security settings from it’s ancestors, you can override inheritance to deny the item the right to inherit the security settings.
+
+You can also apply the access rights at the item level to override the rights which comes from the template standard values. Security settings applied at the item level will always override anything set on the template standard values from that item plus it’s descendants.
+
+In summary:
+
+- Items inherit security access from ancestors by default.
+    - It is a Sitecore recommended practice to assign access right on as few items as possible.
+- You should aim to remove inheritance versus deny individual access right.
+- Access rights applied at the item level, will always override any access that was set on the template standard values (but you will have to deny individual access rights manually).
+    - While you should try to set security access on the template standard values, there are cases where you would have to set access rights at the level item, for example site sections that use the same template (but they need to have different access rights).
+
+### The Security Tools
+
+In Sitecore, there are several tools available that you can use to manage various aspects of security.
+
+The Sitecore security tools are:
+
+- The User Manager
+    - You can use the User Manager to create and manage the users that have access to your system.
+    - In the User Manager, you can:
+        - Create, edit, and delete users
+        - Change the password of users
+        - Enable and disable users
+        - Lock and unlock users: `Launchpad-> UserManager-> User-> Unlock`
+        - Open the other security tools
+- The Role Manager
+    - You can use the Role Manager to create and manage the roles that you want to assign to your security accounts (users and roles).
+    - In the Role Manager, you can:
+        - Create and delete roles.
+        - Add or remove users and roles as members of a role.
+        - Open the other security tools.
+- The Security Editor
+    - You can use the Security Editor to assign the access rights that roles and users should have to the items in the content tree.
+    - In the Security Editor, you can:
+        - Assign access rights to your security accounts
+        - Protect and unprotect items
+        - Open the Access Viewer and the User Manager
+- The Access Viewer
+    - You can use the Access Viewer to get an overview of the access rights that are assigned to all of your security accounts.
+    - In the Access Viewer, you can:
+        - Get an overview of the access rights that are assigned to the security accounts for each item in the content tree.
+        - See an explanation of how the current settings have been resolved.
+        - Open the Security Editor and the User Manager.
+- The Domain Manager
+    - You can use the Domain Manager to create and manage your domains.
+    - In the Domain Manager, you can:
+        - Create and delete domains.
+        - Specify whether the domains are global or locally managed.
+        - Open other security tools.
+- The Content Editor (the Security tab)
+    - In the Content Editor, there are security functionalities available that enable you to assign access rights to your security accounts.
+    - In the Content Editor, on the **Security** tab, you can:
+        - Assign access rights to your security accounts.
+        - Get an overview of the roles and users that have access rights to individual items in the content tree.
+        - Change the ownership of an item.
+        - Open the Access Viewer and the User Manager.
+
+## History Engine and History Table
+
+The history engine saves information about changes made to items in the `History` table. All Sitecore content databases contain this table. The engine logs the item change data based on Sitecore events. It subscribes to events when it is initialized it and registers its own handlers that track item history.
+
+Sitecore does not use the `history` table by default. It has been disabled for performance reasons. If you need to use it, you must enable it.
+
+Keep in mind that there is a performance penalty when you enable it. Some of the information is available in the `EventQueue` table, but it is retained for a much shorter time. Some information is available in the log files as AUDIT messages. Finally you can customize Sitecore to collect more information, for example by using custom event handlers for item change events.
+
+By default, the engine tracks these item operations (events):
+
+- New version added to the item (AddedVersion)
+- Item copied to another location (CopiedItem)
+- New item created (CreatedItem)
+- Item deleted (DeletedItem)
+- Item moved (MovedItem)
+- Item saved (SavedItem)
+- Item version removed (RemovedVersion)
+
+## Workflows and the Workbox
+
+Sitecore workflows are used for the creation, review, and approval stages that items must go through before they are published on your website. In other words, workflows perform some validations to items before they go live.
+
+Workflows are primarily used for content approvals through which all content updates would be required to go through before they can be published.
+
+So, workflows in Sitecore provide control over the content approval and publishing process. You should always use workflows to ensure that only approved content is published to the live site.
+
+Workflows consist of three elements: **states**, **commands** and **actions**.
+
+Workflows, states, actions, and commands are all definition items stored in the content tree under `/sitecore/System/Workflows`. Workflows contain states, and states contain actions and commands. Commands can also contain actions.
+
+A workflow can contain any number of workflow states and be as simple or complex as required. Items do not necessarily have to move through all the workflow states that you have defined. Some states can be optional or only applicable to certain kinds of content.
+
+In Sitecore, you can implement any number of different workflows. As a minimum, each workflow must contain two workflow states: The initial and final workflow state. You can only publish an item in a workflow if it is in the final workflow state.
+
+You can create custom workflows for different types of content and set the workflow that should be used for each template in the template standard values.
+
+Actions can be associated with either states or commands and represent a method that Sitecore executes when the action is raised. An action acting as a subitem to a state is performed when the content item enters the state. An action acting as a subitem to a command is performed when the user executes the command.
+
+Actions are based on the `/sitecore/Templates/System/Workflow/Action template`.
+
+Commands let users move a content item from one state to another. The Content Editor shows commands in the Content Editor on the **Review** tab, in the **Workflow** group, when the content item is in the corresponding state and the user has access to the commands. The same commands are also shown in the Workbox.
+
+Commands are based on the `/sitecore/templates/System/Workflow/Command template`.
+
+The Workbox is a tool in Sitecore that displays information about the items in a workflow such as editing history or the number of items that you can find in each workflow state. In the Workbox you can find all items in a workflow.
+
+In the Workbox, you can see the editing history of items in the workflow, each item's workflow state, and the number of items in each workflow state.
+
+For each item in a workflow state, you can preview, open and compare different versions of the same item. You can also set up an RSS feed, which enables you to receive a notification when there are changes to an item or when a version of an item enters or leaves a specific workflow state.
+
+## Content Editor and Experience Editor
+
+The **Content Editor** is one of two viewing modes that shows your website folder structure, as well as give you the ability to manage and edit all content on your website. The other viewing mode is the **Experience Editor**.
+
+### Content Editor
+
+The Content Editor is designed for more experienced content authors who feel comfortable working with a computer and are familiar with Sitecore functionality to add, edit or remove the content of a website using a rich set of features.
+
+here are three main areas of the Content Editor:
+
+- The Ribbon
+    - The area where all the functionality is available.
+- The Content Tree
+    - The area where all the items are organized.
+- The Content Area
+    - The area where you can edit your items.
+
+**The Ribbon** at the top of the page provides you with all the available functionality needed to manage your website. There are seven tabs, each with their own set of functions you can perform. However, every tab includes the save icon for ease of saving your changes.
+
+**The content tree** shows your website folder structure. Here, you can navigate to the folder and page you wish you edit. The content tree has a similar structure to the one used in Windows Explorer. You can expand and open every item with an arrow, just as you can with the folders in Windows Explorer.
+
+**The content area** shows areas of the page you can edit (fields), as well as other page properties such as tagging and metadata.
+
+### Experience Editor
+
+The Experience Editor is an intuitive editing environment designed for Content Authors and Approvers to view and edit content directly on the page.
+
+There are two main areas of the Experience Editor:
+
+- The Experience Editor Ribbon
+    - The Ribbon at the top of the page provides you with all the available functionality needed to manage your website.
+- The Editing Area
+    - The Editing Area allows you to easily make changes to page fields or content directly on the page. You can edit items that are visible on the page such as text, graphics, logos, links, and so on.
+
+## Sitecore Indexing
+
+An index is a searchable database of documents which links to actual Sitecore items.
+
+By default, Sitecore search functionality enables Sitecore to crawl all items in the content tree and index the field values (data) of those items. Three of the primary indexes that come out of the box with a Sitecore installation are Master, Web, and Core. Although the out-of-the-box indexes are widely used, there may be times when you want to create a custom index.
+
+You can query the pre-build indexes from the Sitecore CMS.
+
+A custom index is a new index (aside from Master, Web, and Core) that you can customize to index only select fields, templates, etc. Some of the reasons you may want to create a custom index are:
+
+- You want a certain part of the content tree to be isolated inside an index by itself.
+- You want to bring external data into Sitecore so it is searchable within Sitecore.
+- You need to shard indexes to support large amounts of content.
+- You want to define your custom start path so you do not have to index the entire content tree.
+
+Building a custom index decreases build time, which in turn can make development much quicker.
+
+When discussing indexes, you may also sometimes hear them referred to as a "Core.”
+
+After the index is created, then you have to add it to Solr by navigating to the directory where all indexes live and create a new folder with a new name that represents your newly created index and config the `core.properties` file to use the new index.
+
+After you add the index to Solr, you can view it on the Solr Admin Panel among with the other indexes.
+
+You can also view and build your new Core using the Sitecore Indexing Manager. To rebuild your new index, select the new index and click rebuild. The index is now ready to be used.
+
+You can query a custom index from the code by utilizing the `ContentSearch` API.
+
+## Search Results Pages
+
+Now that you have learned how search functionality works in Sitecore, you can build out site pages that display the search results from the queries you have created. To do so, you have to create a controller rendering that utilizes the `ContentSearch` API to query and display all of the desired results.
+
+That controller should reads the id of the data source item (the data you will query), then retrieve the datasource, create the query and get the result.
+
+So this way we can filter the data of a rendering datasource.
+
+## **Content Serialization**
+
+Throughout the development process, it is important for Developers to move content changes between different environments. This can be done using a process called serialization. Sitecore Content Serialization allows you to easily put items into source control.
+
+For example, you can use serialization to transfer security accounts and settings or you can serialize some items or even an entire database.
+
+You would also use serialization for your template items and save them in source control to make it easy to deploy changes to every environment. However, individual content items that have security applied would not be part of source control so you would have to transfer those items manually.
+
+When you use serialization to transfer user accounts, the passwords are not transferred. You can reset them manually or have the users to click the forgot password link on the Sitecore login screen to reset their passwords.
+
+Content serialization allows Developers to push and pull data, such as content items, templates, and renderings, from a controlled shared area when needed or supported in the local workstation.
+
+Serialization is also important for sharing Developer artifacts through source control and for deploying changes to production. This source control would also be the authoritative place to look for items necessary to the Sitecore production instance.
+
+The Sitecore Content Serialization has two parts: the Sitecore Command Line Interface (CLI), and the Sitecore for Visual Studio plug-in.
+
+These two options operate independently, allowing you to choose your preferred development style without being restricted to using the same tool as other Developers on your team. The feature set between the two tools are one and the same; the major difference is that Sitecore for Visual Studio is a Graphical User Interface (GUI) wrapper around the command line functionality.
+
+Developers utilize content serialization to convert all items in a database or a series of items in a database to text files. You can then use these text files to transfer this database or series of items to another database or Sitecore solution. Serialization makes pushing and pulling Sitecore items in and out of their solutions incredibly efficient.
+
+Prior to Sitecore 10, serialization was supported by tools such as Team Development for Sitecore (TDS) and Unicorn. Both tools worked well, but were incompatible with each other, which required the entire development team to work with one or the other.
+
+**Modules:**
+
+When developing your solution, it's important to serialize items so that other Developers can check them in and out of source control. To make the serialization process as seamless as possible, you can utilize modules to specify which Sitecore items you want to be included. As of Sitecore 10, there are two primary ways to create modules: via code using a text editor and with the Sitecore for Visual Studio plugin.
+
+Modules are organized into folders.
+
+Modules are sets of includes—rules that determine what you want to serialize and how you want to interact with things you pull and push in your solution.
+
+Modules are configured in the `Sitecore.json` file. The `*Sitecore.json`* file is used to control how Sitecore serialization behaves. The *modules* section of this file is used by Sitecore serialization to locate all modules in your solution. The default configuration only refers to a single module, but we can change it to use wildcards (*/*) to locate all modules in your solution. Those modules are JSON files that tells Sitecore which items should be serialized.
+
+If you create a module with a path that does not match one of the paths set in the `*sitecore.json`* file, The module will not be included when you run serialization.
+
+An **include** indicates which section of the Sitecore content tree to serialize. When creating an include, you can indicate the path, path length, database, scope, and allowed push operations of items that you want to be serialized. Modules can contain more than one include, depending on the complexity of your serialization needs.
+
+list of the allowed include properties:
+
+- name
+    - The *name* property sets the name of the include
+        - Required: Yes
+        - Valid values: String
+        - Default value: None
+- path
+    - The *path* property of the include sets the path that serialization will take down the content tree
+        - Required: Yes
+        - Valid values: String
+        - Default value: None
+- scope
+    - The *scope* property indicates the extent of your include
+        - Required: No
+        - Valid values: SingleItem, ItemAndChildren, and ItemAndDescendants
+        - Default value: ItemAndDescendants
+- database
+    - The *database* property sets the database your items are in
+        - Required: No
+        - Valid values: Master or Core
+        - Default value: Master
+- maxRelativePathLength
+    - Required: No
+    - Valid values: Number
+    - Default value: 130
+- allowedPushOperations
+    - The *allowedPushOperations* property sets the abilities of the include so that items can be created, updated, and deleted during serialization.
+        - Required: No
+        - Valid values: CreateOnly, CreateAndUpdate, and CreateUpdateAndDelete
+        - Default value: CreateUpdateAndDelete
+- Rules
+    - To modify the include even further, you can create one or more rules. Rules are created to modify the behavior of an include. An include can have multiple rules.
+    - The rule properties you can modify are:
+        - path
+            - The path property indicates the path to the item or items you are referring to in the content tree.
+                - Required: Yes
+                - Allowed Values: String
+                - Default Value: None
+        - scope
+            - The *scope* property indicates to what extent we are serializing the item(s) in the content tree path.
+                - Required: Yes
+                - Allowed Values: Ignored, SingleItem, ItemAndChildren, and ItemAndDescendants
+                - Default Value: None
+        - alias
+            - The alias property allows you to identify the item(s), and the *allowedPushOperations* property indicates what will happen to the item(s) during serialization.
+                - Required: No
+                - Allowed Values: String
+                - Default Value: None
+        - allowedPushOperations
+            - The *allowedPushOperations* property indicates what will happen to the item(s) during serialization.
+            - Required: No
+            - Allowed Values: CreateOnly, CreateAndUpdate, and CreateUpdateAndDelete
+            - Default Value: Inherited from parent
+
+**An example of a Module:**
+
+```jsx
+// TestModule.module.json
+{
+  "namespace": "TestModule",
+  "items": {
+    "includes": [
+      {
+        "name": "plant include",
+        "path": "/sitecore/content/myproject/plants",
+				"rules": {
+						"path", "/flowers",
+						"scope" "ignored"
+				}
+      }
+    ]
+  }
+}
+```
+
+You have now created "plant include" in your TestModule module. This include indicates that this module will serialize the *Plants* item and its descendants (the scope is set to Item and Descendants by default), minus a single item called *Flowers*.
+
+To actually serialize items, you have to pull them from Sitecore to your Disk. You can do this by using both the Sitecore CLI and Sitecore for Visual Studio.
+
+After you pull the items into your disk, you can include them in source control.
+
+## Patch Files and The Sitecore.config File
+
+The `Sitecore.config` file contains all the configuration for your project. Things like the project name, the project path in the content tree, caching, etc..
+
+Patch files are custom configuration files.
+
+You use patch files to add or change configuration settings in the `Sitecore.config` file. Sitecore merges the patch files with the `Sitecore.config` file to create the configuration file that is used at runtime.
+
+When Sitecore applies the changes from a patch file, it tries to match each element in the patch file to an element in the `Sitecore.config` file using the combination of the element name and all the attributes of the element. If there is a match, Sitecore updates the existing element. If there is no match, Sitecore inserts a new element.
+
+Note that If a patch file element matches more than one element in the existing configuration, Sitecore applies the update to the first matching element that it finds. We therefore strongly recommend that you specify enough attributes of the element to uniquely identify it.
+
+By default, Sitecore inserts new elements at the end of the configuration section that the elements belong to.
+
+The order in which Sitecore loads configuration files is important because the changes that a file makes can be modified or overwritten by files that load later. If Sitecore finds the same configuration setting in multiple files, the last file to load overwrites the previous versions of the setting.
+
+**Control the load order of configuration files**
+
+To control the sequence in which the configuration files load, In the `/App_config/layers.config`
+ file you have to wrap the configuration files within the `<LoadOrder>` tag like shown below:
+
+```jsx
+<loadOrder>
+<add path="Folder23" type="Folder" />
+<add path="Folder9/sitespecific.config" type="File" />
+<add path="Folder1" type="Folder" />
+</loadOrder>
+```
+
+When Sitecore encounters a `<loadOrder>` setting, it loads the configuration files in this order:
+
+1. Folders and files that are specified in the `<loadOrder>` section load first, in the order they are listed. In the previous example, the files in the `Folder23` folder load first, then the `sitespecific.config` file, and then the files in the `Folder1` folder.
+2. Folders and files that are not specified in the `<loadOrder>` section load second.
+3. By default, Sitecore loads configuration files in alphabetical order.
+4. Files that are placed in the root of a folder load before files within subfolders.
+
+The best method to edit the `Sitecore.config` file is to use a patch config file because the `Sitecore.config` file itself may be overwritten during updates and upgrades to reset it to its original settings.
+
+So, the best practice is to keep your `Sitecore.config` file completely untouched. Do not directly change settings found here. Do not add new settings either. Patching allows you to modify existing settings and add new settings to the `Sitecore.config` without ever directly touching the `Sitecore.config` file itself. Patching will help you deduce whether something is wrong with your instance due to the fresh install process or due to custom settings needed for your particular solution. It will also help make subsequent upgrades even easier too by moving all the custom changes somewhere else.
+
+Using patch files will give you two advantages:
+
+1. It will be easier to upgrade a project in the feature because all your custom configurations will be placed in your custom config files. You will not change any of original Sitecore files so you will be able to just copy and paste them from installation zip during the upgrade. No need to manually apply all config changes.
+2. Your configuration will be processed in correct order. Ideally, we want the default Sitecore configuration files (and all default module files) to be processed first, and then apply our customizations on top of this.
+
+**Control how Sitecore inserts elements**
+
+By default, Sitecore inserts new elements at the end of the configuration section that the elements belong to. We can change this behavior:
+
+1. Register the `patch` and `set` XML namespaces that enable you to use attributes to modify or add settings, by adding them to the `<configuration>` setting.
+    1. In a patch file:
+    
+    ```jsx
+    <configuration xmlns:patch="http://www.sitecore.net/xmlconfig/"
+    xmlns:set="http://www.sitecore.net/xmlconfig/set/">
+    ```
+    
+2. Use a `patch:` attribute to specify where the element is placed relative to existing elements, or to specify that it replaces or updates an existing element of the same name. You can use the following attributes:
+    1. `patch:before` – inserts the element before the specified element.
+    2. `patch:after` – inserts the element after the specified element.
+    3. `patch:attribute` – defines or replaces the specified attribute of the element. You can achieve the same effect using the `set` namespace.
+    4. `patch:delete` – removes the specified element.
+    5. `patch:instead` – replaces the specified element.
+
+For example, to add a site named `mysite` and place it before the existing site with the name `website`, use the following syntax:
+
+```jsx
+// patch file
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/"
+xmlns:set="http://www.sitecore.net/xmlconfig/set/">
+  <sitecore>
+    <sites>
+      <site patch:before=”*[@name='website']” name=”mysite” ... />
+    </sites>
+  </sitecore>
+</configuration>
+```
+
+**An Example with patch files:**
+
+```jsx
+// Sitecore.config
+<settings>
+  <setting name="name" value="Aaron" />
+</settings>
+```
+
+```jsx
+// Patch file1
+<settings>
+  <setting name="city" value="New York" />
+</settings>
+```
+
+```jsx
+// Patch file2
+<settings>
+  <setting name="country" value="USA" />
+</settings>
+```
+
+The `Sitecore.config` file used at runtime is:
+
+```jsx
+// Sitecore.config
+<settings>
+  <setting name="name" value="Aaron" />
+  <setting name="city" value="New York" />
+  <setting name="country" value="USA" />
+</settings>
+```
+
+## Docker
+
+**System prerequisites for working with Sitecore on containers:**
+
+- Software prerequisites
+    - Windows 10 Professional or Enterprise Version 1809 or later
+        - For enabling process isolation version 1909 is recommended
+    - Hyper-V
+        - Used in process isolation, it will lower the usage on your RAM which requires Windows 10 Professional version 1909
+    - Docker Desktop for Windows
+    - Docker Compose
+        - Sitecore Docker Compose deployments requires two files:
+            - `docker-compose.yaml`
+            - `.env`
+    - VS Studio/VS Code
+- Hardware prerequisites
+    - Hardware must first meet the requirements for running Hyper-V itself. To ensure your ability to run Hyper-V, you are required to have a 64-bit processor with SLAT, a minimum of 4GB RAM and virtualization support turned on in the BIOS.
+    - Recommended hardware for Sitecore development:
+        - 32 GB RAM
+        - CPU quad-core or higher
+        - 25GB free of disk space (SSD disk is strongly recommended)
+- Files prerequisites
+    - Environment configuration file (.env)
+
+**Convert your Sitecore license file for use in containers:**
+
+There are two ways to convert your license
+
+- Compress
+    - The *ConvertTo-CompressedBase64String* cmdlet in SitecoreDockerTools makes this easy.
+- Mount
+    - Mounting your license file is an alternative to using the `.env` file.
+    You can use this process if you find that the file is still incompatible after you compress and encode it.
+    To use a mounted license file, you must populate the `SITECORE_LICENSE_LOCATION` environment variable on each service with a volume-mounted path containing your Sitecore license key. We will also use an environment variable, HOST_LICENSE_FOLDER, to configure the path on the container host which contains our `license.xml`
+
+## Sitecore ASP.NET Core Headless Development
+
+Generally, content management systems run a back end and a front end within a single application to handle all processes and functions. The back end handles content creation, management, and data storage, while the front end handles features such as presentation and delivery. The Content Delivery instance in Sitecore handles all this workload in one place. Due to this structure's tightly coupled nature, restrictions on development are imposed by the back-end development style.
+
+By contrast, Sitecore Headless Development is based on a front-end rendering host and a back-end Sitecore instance. This decoupling of logic domains makes a Sitecore solution easy to develop, maintain, scale, and upgrade. The front-end controls presentation and delivery, and the back-end works strictly with content creation, management, and data storage.
+
+The **Layout Service** is what powers Sitecore JSS and ASP.NET Core and provides the data about a given URL/page request in the form of a JSON object. The Layout Service gets the data from the Content Delivery server and transforms them into JSON objects.
+
+Generally speaking, we would never actively call the Layout Service directly, but sometimes it's good for testing purposes to be able to get a raw data dump to ensure data is actually being given in the correct format (or at all) before looking elsewhere.
+
+The Sitecore ASP.NET Core Rendering SDK introduces the **Sitecore Rendering Host** that operates outside of the Content Delivery instance and provides you with the tools for faster development iterations. The Sitecore Rendering Host is the front-end section that requests data from the Layout Service. The Layout Service then retrieves data from the Content Delivery instance and returns the content data in JSON format to the Rendering Host. This is extremely useful for multi-channel scenarios as the back end can now serve the same data to both a website and mobile front end without having to manipulate the content. This loosely coupled environment no longer requires the development restrictions in the front end imposed by the back- end structure.
+
+Like the JSS Rendering Host, the ASP.NET Core Rendering Host receives an HTTP request from the browser, then forwards the request for Sitecore- specific content data to the Content Delivery instance via the Layout Service. The Layout Service response is the content in JSON format with no HTML or markup attached. The Rendering Host then combines the content data received from the Layout Service with the .NET Core code and returns it as HTML to the browser in response to the HTTP request.
+
+The headless Rendering Host offers three major benefits to Developers:
+
+1. The first benefit is when working headlessly with the ASP.NET Core Rendering SDK; you are building a small, light-weight, .NET Core application that does not require a full restart of the Sitecore environment to preview the code changes. As a Developer, you can see your changes and make alterations quickly.
+2. The second benefit is that you can now run the Rendering Host application directly from Microsoft Visual Studio. The ASP.NET Core Rendering Host is a fully self-contained .NET Core application that can utilize the debugging functionality of Visual Studio. Using *F5*, you can run your application with debugging and have immediate feedback on how your code works.
+3. The third benefit of using headless development with Sitecore is the seamless interaction between the .NET Core application and your existing architecture. In practice, you will need to build and maintain the .NET Core application alongside the existing elements in your current environment architecture. Once you have the .NET core application running, the application will request content data through the Layout Service, which will then automatically fill in the content spaces you have built within your code.
+
+### View Types
+
+The Sitecore Rendering Engine renders Sitecore content using ASP.NET view components and partial views. These view types are used to create components within an ASP.NET Core application with the Sitecore Rendering Host. The three view types are model-bound views, custom view components, and partial views.
+
+**Model Bound Views:**
+
+The first view type to explore is a model-bound view. Model-bound views are backed by a default Sitecore view component which binds component content to a provided type. Model-bound views use the default *SitecoreComponentViewComponent*, so you do not need to create a view component class. When you have created both your Razor view in the */Views/Shared/Components/SitecoreComponent* folder and your view model class, you must map the Layout Service response to the view component with the *AddModelBoundView<TModel>()* extension method.
+
+Note that model bound views requires both a view (razor view) and a model class.
+
+**Custom View Components:**
+
+The second view type to explore is a custom view component. Custom view components are intended for use anywhere you have reusable rendering logic that is too complex for a model-bound view.
+
+Typically, view components do not use ASP.NET model binding and only access data on demand. However, the ASP.NET Rendering SDK provides a service and base component to enable binding a model to Layout Service output.
+
+A view component consists of three files (one more than model bound views):
+
+- The view component class
+- The Razor view
+- The view model class
+
+**Partial Views:**
+
+The third view type is a partial view. A partial view renders HTML output within another view's rendered output. Creating partial views in a Sitecore rendering host application follows the standard MVC conventions. Similarly, partial view discovery in a Sitecore rendering host follows the standard rules in ASP.NET Core MVC. You must map the Layout Service response to the partial view. These mappings are configured in the `*ConfigureServices()`* method in the Startup class.
+
+### Requirements Before Development
+
+Before you begin headless development with Sitecore's ASP.NET Core Rendering SDK, you must be familiar with the various requirements necessary to ensure your solution works correctly with your new components. We will review the three layout and site requirements for the Layout Service and ASP.NET Core rendering:
+
+1. Configuring the site definition
+2. Configuring Experience Editor support
+3. Understanding the HTTP request process.
+
+The ultimate goal of these requirements is to ensure that the Rendering Engine is configured appropriately for the Layout Service to return data from the Content Delivery instance. Knowing the necessary requirements and configurations will help you ensure your environment works correctly with your new ASP.NET Core components.
+
+**Requirement 1: Configure Site Definition**
+
+The first requirement to check is the configuration of your site definition. For a Sitecore environment, site definitions are configured in patch files to the `Sitecore.config`. The process of adding additional sites is completed manually with these patch files.
+
+Configurations for Setting the Site Definition:
+
+- Configuration 1: Configure Root Path
+    - A single Sitecore instance uses multiple websites to manage content delivery, content management, and many other features. However, by default there is only one published website. This website corresponds to the `<site name="website"…/>` definition in the `Sitecore.config` file. When configuring a site definition for your ASP.NET Core rendered site, configure the rootPath as you would for any Sitecore site.
+- Configuration 2: Configure Host Names
+    - When configuring a site definition for your ASP.NET Core rendered site, you must configure the hostName or targetHostName URL as the external-facing host name of your Content Delivery (CD) server. This host is used when the Layout Service outputs media library URLs (if you are not using a CDN). Additionally, the site name values should be configured in the Layout Service client default request values which are located in the `appsettings.json` file within the Rendering Host project.
+
+**Requirement 2: Configure Experience Editor Support**
+
+The second requirement is that you have configured Experience Editor support. This configuration involves several settings in various files within the project.
+
+One of these settings can be found in the `*appsettings.json`* file of the Rendering Host, *“EnableExperienceEditor” = false*. If utilizing Docker, you can find an environment setting with a value of true (*Sitecore__EnableExperienceEditor: “true”*) in the `*docker-compose.override.yml`* file. Additionally, to support Experience Editor, you must use **JSON renderings** and **dynamic placeholders**.
+
+Dependencies to Support the Experience Editor:
+
+- JSON Renderings
+    - Sites based on ASP.NET Core require the rendering components to be created as JSON renderings within the Sitecore environment instead of view or controller renderings as you would with Sitecore MVC. This is because the Layout Service serializes the data for ASP.NET components when the Sitecore component is a JSON rendering. Always use a JSON Rendering.
+- Dynamic Placeholders
+    - Dynamic placeholders are a Sitecore technique used to enable more complex page designs. They use "dynamic" keys for a page component's placeholder assignment, making it difficult to manually author using the Layout Details dialog in the Content editor.
+    To simplify placeholder management, the Layout Service assumes all placeholders are dynamic, exceptions being root placeholders such as main, header, and footer.
+    Dynamic placeholders are addressed using a dynamic placeholder key
+    (formatted: **placeholder key-{rendering-unique-id}-0**). However, this format makes it impractical to use the Content Editor to add renderings to a placeholder or page; utilizing Experience Editor, which will calculate the placeholder key automatically, is recommended.
+
+**Requirement 3: Understand the HTTP Request Process**
+
+The third requirement is that you understand the HTTP request process. The HTTP request process for a headless site is similar to that of Sitecore’s JavaScript Services (JSS); it is the ability to map incoming HTTPS requests to Layout Service requests.
+
+An HTTP request comes in from the browser to be processed. Once it is determined that there is Sitecore-specific data to be rendered, the request goes through to the Rendering Engine middleware. The Rendering Engine then submits a Layout Service request that communicates with the Content Delivery instance for the JSON formatted data. The JSON is combined with the Rendering Context and model, then returned as HTML to the browser per the HTTP request. As a Developer, before you begin writing component code, you will need to configure the Rendering Engine within your application with the correct middleware and routing.
+
+So, the ASP.NET Core Rendering Host receives an HTTP request from the browser, then forwards the request to the layout service and then the layout service communicates with the CD server and ask for the data to be formatted in JSON objects. Once the layout service receives the data in JSON, the ASP.NET Core Rendering Engine ~~together with the ASP.NET Core application (rendering host)~~ takes that JSON data and render them on HTML to the browser.
+
+Take a look at how to configure the **Rendering Engine routing** and the **Rendering Engine middleware** in the guide below.
+
+Configure the Rendering Engine Routing and Middleware:
+
+1. Configure Rendering Engine Routing
+    1. The routing configuration is necessary for HTTP requests to be appropriately matched to the data from the Layout Service. These are configured in the `*Startup.cs`* file of the Rendering Host project and can be found in the ****Configure **method**. If you look at the “UseEndpoints” field, you will see a route for errors, a route to check Sitecore first to see if the request is Sitecore specific, and then a fallback to get data from non-Sitecore areas or systems.
+    2. The last configuration to check is Middleware. Middleware is how .NET Core handles requests and responses that come into the program. Sitecore has several pieces of middleware that are configured in the *Startup.cs* file of the Rendering Host project. The middleware includes the integration for the Experience Editor and how HTTP requests are handled to receive information from the Layout Service. In the *ConfigureServices* method, under the *AddSitecoreRenderingEngine* service, you’ll find the *.WithExperienceEditor* field that enables support for the Experience Editor. Much of this is also dependent upon the NuGet packages that must be referenced.
+
+### Advanced Features
+
+**Layout Service NuGet package:**
+
+The *Sitecore.LayoutService* NuGet package provides assemblies, types, and classes needed for extending the Layout Service server output. The output contains Sitecore content and provides it to the Sitecore rendering host. These libraries are helpful when developing more complex components that need access to additional data beyond what is available with a simple content data source.
+
+**Rendering Content Resolvers:**
+
+Rendering Contents Resolvers allow you to define a Sitecore query or .NET class that customizes the output of a JSON Rendering. With a contents resolver, a model-bound view component can access complex data beyond what is typically available when using a standard data source item.
+
+### HTML Caching
+
+Sitecore’s output cashing or HTML caching has a significant impact on performance and each business will need to make unique cashing decisions. There is no golden rule on caching that can be prescribed to any given business because, again, each business is unique each site is unique.
+
+HTML caching is an important feature for Sitecore platform and that has two parts:
+
+1. The patch file configuration that you have to do
+2. Enabling caching by the renderings in the platform itself
+
+Testing has shown that roughly there's 50% Improvement on performance by heavily cashing, but each business will have to make the cashing decision based on balancing the features of performance functionality and security.
+
+While heavy caching can greatly improve performance, renderings that may expose sensitive data or data unique to the end-user or site visitor would not be good candidates for caching. For example, if a bank has a bank account number cashing, that rendering would potentially expose that number to the next person who uses the site. But, however, if there is content that doesn't need to be rendered dynamically by the user, such as a static article or header for the navigation bar, those renderings could be good candidates for caching.
+
+Caching is enabled primarily through the site definition which is held in the `Sitecore.config` file. The best method to edit the `Sitecore.config` file is to use a patch config file because the `Sitecore.config` file itself may be overwritten during updates and upgrades to reset it to its original settings.
+
+On a patch file, to enable caching you have to use the **cacheHTML** property: `cacheHTML="true”`.
+
+The default cache size for Sitecore is 25 megabytes and actually, that's specified in the `Sitecore.config` file under the setting name caching.Default HTML Cache Size.
+
+If the cash size of 25 megabytes is too small you run into issues with performance because it'll constantly be invalidating the cache, losing cached items, and then there will be spikes in calls to the database to restock the cache. This cache restocking can impact performance and functionality of the database, so beware to increase the default cache size. For that, you would need to add the property `htmlCachesize` ****and enter in the value that you want it to be increased to, to your site definition in the patch file.
+
+By default, Sitecore is actually configured to clear the cache each time the site is published and it's actually set up on an event handler publish end and what that does is it wipes out the cache, and re-caches when it's supposed to, however, that could be in a really slow especially if you've not changed those items. So, what you do is, you can actually add another attribute or property to the site node here, `preventHtmlcacheclear` again equal to true, to stop that from happening.
+
+The renderings on a page layout can be cached individually or as a group at the layout level.
+
+Enabling HTML caching is the same across all Sitecore development options.
+
+## Summary
+
+### Questions and Answers
+
+The recommended practices for a multisite implementation:
+
+- Creating a folder for each site
+- Ensuring that each site folder has its own Home item
+- Storing shared content outside of each site folder
+
+---
+
+The component you just completed is statically bound to a page. What is one implication of static binding components like this?
+
+- Authors cannot select the component in the Experience Editor in designing mode.
+
+---
+
+With what are you synchronizing the Master database when using Sitecore's Publish command?
+
+- One or more identified publishing targets
+
+---
+
+When using Sitecore Content Serialization, what is the `sitecore.json` file in your development solution?
+
+- The configuration file for global development plugins and module locations
+
+---
+
+What will happen if you do not add the hostnames of your Sitecore environment to your Windows hosts file?
+
+- You will not be able to access the Sitecore environment via the IP address in a browser.
+
+---
+
+Insert Options at Specific Item. What does it mean?
+
+- Because you want to give them additional options from what is defined in the standard values
+
+---
+
+Exclude items from serializing
+
+- Set the scope rule of an include to be `ignored`
+
+---
+
+Where you can change the workflow state of an item?
+
+- Workbox, Experience Editor and Content Editor
+
+---
+
+A rendering is not displayed on the placeholder selection, what's wrong?
+
+- The rendering is not registered in Allowed Controls (placeholder settings)
+
+---
+
+Placeholder not available in Experience Editor. What's missing?
+
+- Presentation details
+
+---
+
+MVC File outside Webroot. how to add to remote host. Publish from VS or Sitecore Rocks push?
+
+- Publish from VS
+
+---
+
+Workbox. What do you see?
+
+- Workflow States for each item
+
+---
+
+Error during Docker init: Maybe license file is too large (even after base64 compression) for Docker. How to fix it?
+
+- As as workaround, you can mount the license file as Docker volume from the host to the `C:\inetpub\wwwroot\app_data\license.xml` file inside the container
+
+---
+
+From where you can publish a single Item?
+
+- From ContentEditor and ExperienceEditor
+
+---
+
+.NET Core start up templates. What templates supports?
+
+- Dev only
+
+---
+
+Sitecore Container Registry. What images does it have?
+
+- From Sitecore 10, Sitecore provide images for development and production environments
+
+---
+
+Debug Docker image from Visual Studio
+
+- Attach to `w3wp.exe`
+
+---
+
+Change a rendering with another rendering but keep the same data source
+
+- Compatible Renderings
+
+---
+
+If the path of a module is not found in the `Sitecore.json` file then what happens with serialization?
+
+- If module path is not found then it gets ignored, meaning it is will not be included in the serialization process
+
+---
+
+The service that provide us the current request in MVC
+
+- `Sitecore.Context.HttpContext.Request`
+
+---
+
+A field is not showing correctly in the Experience Editor due to it’s complexity (child items/data are not shown). What to do?
+
+- Wrap the child items/data with `BeginField` and `EndField`
+
+---
+
+How to make a text field editable or non editable in the Experience Editor
+
+- .NET Core: `editable: true/false`
+- MVC: `DisableWebEdit = true/false`
+
+---
+
+Patch order
+
+- The `<PatchOrder>` defines the order that patch files are executed. It is defined in the `/App_config/layers.config` file.
+
+---
+
+Extranet Domain
+
+- Extranet is a domain that contains the user accounts of the visitors of your site and provides read-only rights.
+
+---
+
+Standard Values inheritance
+
+- Standard values can work as fallback values (default values) for fields that no one provided a value
+
+---
+
+Item with ‘Title’ Field. `$name` token is set on template standard values. What will happen when this token expand?
+
+- The ‘Title’ field will be populated with the item’s name
+
+---
+
+Two templates with Description RichText Field with difference datasources. Can we use a base template?
+
+- No, because of two different datasources. If the data source is not the same then the field is unique to each template and cant be used as a base template because it is not a common field for these two templates.
+
+---
+
+Datasource Location or Datasource Template restrict to a specific type of an item. So content authors can insert content items that are created from a specific type/template
+
+- Datasource Template
+
+---
+
+How to unlock a user?
+
+- Launchpad-> UserManager-> User-> Unlock
+
+---
+
+You have a multisite Implementation and you want to have shared components. Clone components in each site, or create a global components folder?
+
+- Create a global components folder
+
+---
+
+Non inline editable fields in Experience Editor
+
+- Checkbox, Multilist, Droplink
+
+---
+
+Editable fields in Experience Editor
+
+- SingleText, MultilineText, Date, Number, Image RichText, GeneralLink
+
+---
+
+What are the key features of workflows?
+
+- States, Commands, Actions
+
+---
+
+Create role, how to add users to it?
+
+- User Manager -> User -> Member Of -> Available Roles
+
+---
+
+What is the default value of Scope in serialization?
+
+- ItemAndDescendants
+
+---
+
+Create content directly in the Web Database and Publish From master what happens to items created in web?
+
+- Items created directly in the web database will be overwritten by the latest version of the master database
+
+---
+
+Can a checkbox or a tree list be rendered using `Html.Sitecore().Field()`?
+
+- No, that’s because those are complex fields
+
+---
+
+Some field options are not available in the Experience Editor and you have to edit the content via the Content Editor. How to fix this?
+
+- This is where Experience Editor Button helps and improves the Sitecore’s user experience
+
+---
+
+How to share content between Sites?
+
+- Shared content should be stored outside of any one site’s content tree structure
+
+---
+
+What is the usage of Sitecore support package?
+
+- You use Sitecore support package when you face some errors related to the Sitecore product and you have to contract the Sitecore team. You asked to get the log files and send it to them. The purpose of Sitecore support package is to help Sitecore team to replicate an issue without accessing our environment.
+
+---
+
+What are the ASP.NET Core application features?
+
+- Independent, render Sitecore content
+- De-coupled
+- Light-weight
+- Consumes Sitecore Layout Service
+- Preview code changes
+
+---
+
+`Startup.cs` functionality
+
+- Register the Sitecore Layout Service Client invoked by the Rendering Engine
+- Register the Sitecore Rendering Engine services
+- Map a Sitecore rendering component name to an implementation
+- Enable support for the Experience Editor
+- Standard ASP.NET routing and static file support
+
+---
+
+`Sitecore.json` file
+
+- Specifies what CLI plugins were installed
+- If plugins are not installed, commands would not be available
+- The module section specifies the location of JSON files having serialization information
+- If the `module.json` path is not specified, serialization will not happen
+
+---
+
+`.env` file. When to use the `HOST_LICENSE_FOLDER` environment variable?
+
+- Use the `HOST_LICENSE_FOLDER` environment variable when you have got an error about the compression of the license file so the `SITECORE_LICENSE` environment variable can not be used. This way you do not need to store the license file within the container and instead, you have to have it in your own machine, and then create a Docker volume so the container can see it and can utilize it.
+
+---
+
+## Sitecore 10 Developer Certification
+
+- Containers: 3 questions
+- Sitecore Content Serialization: 5 questions
+- Layout & Placeholders: 5 questions
+- Sitecore Structure & Platform: 6 questions
+- Security & User Management: 8 questions
+- Item Management: 10 questions
+- Components, Controls & Renderings: 13 questions
